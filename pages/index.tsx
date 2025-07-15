@@ -4,8 +4,17 @@ import React from "react";
 
 export default function Home() {
 
-	const [formData, setFormData] = useState<{ name: string; email: string; message: string; }>({ 
-    name: "", email: "", message: "" });
+	const [formData, setFormData] = useState<{ 
+      name: string; 
+      email: string; 
+      message: string;
+      celular: string; // 👉 nuevo campo
+    }>({
+      name: "", 
+      email: "", 
+      message: "", 
+      celular: "" // 👉 inicializado vacío
+    });
 	
 	const [status, setStatus] = useState(""); 
 	
@@ -30,7 +39,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     });
     if (!res.ok) throw new Error("Algo salió mal");
     setStatus("¡Mensaje enviado con éxito!");
-    setFormData({ name: "", email: "", message: "" });
+    setFormData({ name: "", email: "", message: "", celular: "" });
   } catch (error) {
     console.error(error);
     setStatus("Error al enviar el mensaje.");
@@ -134,6 +143,21 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
               ></textarea>
             </div>
+			
+			<div>
+			  <label htmlFor="celular" className="block text-sm font-medium text-gray-700">
+				Celular
+			  </label>
+			  <input
+				type="text"
+				name="celular"
+				id="celular"
+				required
+				className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+				value={formData.celular} // 👉 enlace con el estado
+				onChange={handleChange} // 👉 manejador
+			  />
+			</div>
 
             <div>
               <button
