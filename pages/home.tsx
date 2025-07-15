@@ -72,19 +72,14 @@ export default function Home() {
 
 	{/* 🚀 Navbar fijo, oculto al bajar, visible al subir */}
 	<nav 
-	  className={`
-		bg-white/70 backdrop-blur-md border-b border-white/30 
-		fixed w-full z-50 
-		transition-transform duration-500 
-		${showNavbar ? 'translate-y-0' : '-translate-y-full'}
-	  `}
+	  className={`bg-white/70 backdrop-blur-md border-b border-white/30 fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
 	>
 	  <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
 		{/* Logo */}
-		<div className="text-xl font-bold text-pink-600">ForeverUs</div>
+		<div className="text-2xl font-bold text-pink-600">ForeverUs</div>
 		
 		{/* Links desktop con subrayado animado */}
-		<div className="space-x-4 hidden md:flex text-sm">
+		<div className="space-x-4 hidden md:flex">
 		  <a href="#about" className="relative group text-gray-700 hover:text-pink-600">
 			Sobre nosotros
 			<span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
@@ -119,7 +114,6 @@ export default function Home() {
 		</div>
 	  )}
 	</nav>
-
 
 
       {/* Offset para que el navbar fijo no tape contenido */}
