@@ -69,10 +69,9 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       
-
 	{/* 🚀 Navbar fijo, oculto al bajar, visible al subir */}
 	<nav 
-	  className={`bg-white/70 backdrop-blur-md border-b border-white/30 fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
+	  className={`bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
 	>
 	  <div className="max-w-7xl mx-auto px-4 py-2 flex justify-between items-center">
 		{/* Logo */}
@@ -114,6 +113,10 @@ export default function Home() {
 		</div>
 	  )}
 	</nav>
+
+	{/* 🚀 Espacio compensador exacto para que el contenido no quede tapado */}
+	<div className="pt-12"></div>
+
 
 
       {/* Offset para que el navbar fijo no tape contenido */}
