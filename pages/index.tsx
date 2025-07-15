@@ -128,6 +128,24 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 				onChange={handleChange} // 👉 agregado
               />
             </div>
+			
+			<div>
+			  <label htmlFor="celular" className="block text-sm font-medium text-gray-700">
+				Celular
+			  </label>
+			  <input
+				type="tel"
+				name="celular"
+				id="celular"
+				pattern="[0-9]{8,15}" // 👉 acepta solo de 8 a 15 dígitos
+				title="Ingresa entre 8 y 15 dígitos sin espacios"
+				placeholder="Ej. 5544332211"
+				required
+				className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+				value={formData.celular}
+				onChange={handleChange}
+			  />
+			</div>
 
             <div>
               <label htmlFor="message" className="block text-sm font-medium text-gray-700">
@@ -144,20 +162,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
               ></textarea>
             </div>
 			
-			<div>
-			  <label htmlFor="celular" className="block text-sm font-medium text-gray-700">
-				Celular
-			  </label>
-			  <input
-				type="text"
-				name="celular"
-				id="celular"
-				required
-				className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
-				value={formData.celular} // 👉 enlace con el estado
-				onChange={handleChange} // 👉 manejador
-			  />
-			</div>
+			
 
             <div>
               <button
