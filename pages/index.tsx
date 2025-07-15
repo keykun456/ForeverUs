@@ -7,7 +7,7 @@ export default function Home() {
 	const [status, setStatus] = useState(""); 
 	
 //manejador de cambios
-const handleChange = (e) => {
+const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
   setFormData(prev => ({
     ...prev,
     [e.target.name]: e.target.value
