@@ -66,54 +66,56 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
+	
+	
       {/* 🚀 Navbar fijo, oculto al bajar, visible al subir */}
-      <nav
-        className={`
-          fixed w-full z-50 transition-transform duration-500 
-          ${showNavbar ? 'translate-y-0 bg-white bg-opacity-80 backdrop-blur' : '-translate-y-full'}
-          shadow-md h-16
-        `}
-      >
-        <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center h-full">
-          {/* Logo */}
-          <div className="text-2xl font-bold text-pink-600 text-center w-full md:w-auto">ForeverUs</div>
+	<nav 
+	  className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
+	>
+	  <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+		{/* Logo a la izquierda */}
+		<div className="text-2xl font-bold text-pink-600">ForeverUs</div>
 
-          {/* Links desktop con subrayado animado */}
-          <div className="space-x-4 hidden md:flex">
-            <a href="#about" className="relative group text-gray-700 hover:text-pink-600">
-              Sobre nosotros
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
-            </a>
-            <a href="#services" className="relative group text-gray-700 hover:text-pink-600">
-              Servicios
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
-            </a>
-            <a href="#contact" className="relative group text-gray-700 hover:text-pink-600">
-              Contacto
-              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
-            </a>
-          </div>
+		{/* Links desktop con subrayado animado */}
+		<div className="space-x-4 hidden md:flex">
+		  <a href="#about" className="relative group text-gray-700 hover:text-pink-600">
+			Sobre nosotros
+			<span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
+		  </a>
+		  <a href="#services" className="relative group text-gray-700 hover:text-pink-600">
+			Servicios
+			<span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
+		  </a>
+		  <a href="#contact" className="relative group text-gray-700 hover:text-pink-600">
+			Contacto
+			<span className="absolute left-0 bottom-0 w-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
+		  </a>
+		</div>
 
-          {/* Botón ☰ visible solo en móvil */}
-          <div className="md:hidden absolute right-4 top-4">
-            <button 
-              onClick={() => setMenuOpen(!menuOpen)} 
-              className="text-gray-700 hover:text-pink-600 focus:outline-none text-3xl"
-            >
-              ☰
-            </button>
-          </div>
-        </div>
+		{/* Botón ☰ visible solo en móvil, centrado verticalmente */}
+		<div className="md:hidden flex items-center h-full">
+		  <button 
+			onClick={() => setMenuOpen(!menuOpen)} 
+			className="text-gray-700 hover:text-pink-600 focus:outline-none text-3xl"
+		  >
+			☰
+		  </button>
+		</div>
+	  </div>
 
-        {/* Menú desplegable mobile */}
-        {menuOpen && (
-          <div className="flex flex-col mt-2 space-y-2 px-4 pb-4 md:hidden">
-            <a href="#about" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Sobre nosotros</a>
-            <a href="#services" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Servicios</a>
-            <a href="#contact" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Contacto</a>
-          </div>
-        )}
-      </nav>
+	  {/* Menú desplegable mobile con fondo blanco semitransparente */}
+	  {menuOpen && (
+		<div className="flex flex-col mt-2 space-y-2 px-4 pb-4 md:hidden bg-white bg-opacity-95 shadow-md rounded-b-md">
+		  <a href="#about" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Sobre nosotros</a>
+		  <a href="#services" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Servicios</a>
+		  <a href="#contact" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Contacto</a>
+		</div>
+	  )}
+	</nav>
+
+{/* Offset para que el navbar fijo no tape contenido */}
+<div className="pt-16"></div>
+
 
       {/* Offset exacto para que el navbar fijo no tape contenido */}
       <div className="pt-16"></div>
