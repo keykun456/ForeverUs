@@ -115,7 +115,11 @@ export default function Home() {
 	</nav>
 
 	{/* 🚀 Espacio compensador exacto para que el contenido no quede tapado */}
-	<div className="pt-12"></div>
+	<nav className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}>
+	...
+	</nav>
+	<div className="pt-16"></div>
+
 
 
 
