@@ -121,7 +121,7 @@ export default function Home() {
 
 
       {/* Offset para que el navbar fijo no tape contenido */}
-      <div className="pt-20"></div>
+      <div className="pt-15"></div>
 
       {/* 🎉 Hero principal con animaciones */}
       <main className="flex flex-1 min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-8">
