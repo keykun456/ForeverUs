@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
 
 export default function Home() {
+
+  // Este componente muestra la página principal
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
@@ -41,6 +44,71 @@ export default function Home() {
           ¡Contáctanos!
         </motion.a>
       </main>
+
+
+
+{/* Sección del formulario de contacto */}
+
+  <section id="contact" className="bg-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-8">
+            Contáctanos
+          </h2>
+          <form className="space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                Nombre
+              </label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                Correo electrónico
+              </label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                Mensaje
+              </label>
+              <textarea
+                name="message"
+                id="message"
+                rows={4}
+                required
+                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+              ></textarea>
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className="w-full inline-flex justify-center py-3 px-6 border border-transparent shadow-sm text-lg font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700"
+              >
+                Enviar mensaje
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+
+
+
     </div>
   );
 }
