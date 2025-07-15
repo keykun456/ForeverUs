@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import React from "react";
 
 export default function Home() {
 
-	const [formData, setFormData] = useState({ name: "", email: "", message: "" }); 
+	const [formData, setFormData] = useState<{ name: string; email: string; message: string; }>({ 
+    name: "", email: "", message: "" });
+	
 	const [status, setStatus] = useState(""); 
 	
 //manejador de cambios
@@ -16,21 +19,18 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
 
 
 //manejador de envío
-const handleSubmit = async (e) => { // 👉 agregado
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   setStatus("Enviando...");
-
   try {
     const res = await fetch("/api/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData)
+      body: JSON.stringify(formData),
     });
-
     if (!res.ok) throw new Error("Algo salió mal");
-
     setStatus("¡Mensaje enviado con éxito!");
-    setFormData({ name: "", email: "", message: "" }); // limpia formulario
+    setFormData({ name: "", email: "", message: "" });
   } catch (error) {
     console.error(error);
     setStatus("Error al enviar el mensaje.");
