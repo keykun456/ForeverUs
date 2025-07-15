@@ -1,9 +1,43 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function Home() {
 
-  // Este componente muestra la página principal
+	const [formData, setFormData] = useState({ name: "", email: "", message: "" }); 
+	const [status, setStatus] = useState(""); 
+	
+//manejador de cambios
+const handleChange = (e) => {
+  setFormData(prev => ({
+    ...prev,
+    [e.target.name]: e.target.value
+  }));
+};
 
+//manejador de envío
+const handleSubmit = async (e) => { // 👉 agregado
+  e.preventDefault();
+  setStatus("Enviando...");
+
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+
+    if (!res.ok) throw new Error("Algo salió mal");
+
+    setStatus("¡Mensaje enviado con éxito!");
+    setFormData({ name: "", email: "", message: "" }); // limpia formulario
+  } catch (error) {
+    console.error(error);
+    setStatus("Error al enviar el mensaje.");
+  }
+};
+
+
+  // Este componente muestra la página principal
   return (
     <div className="min-h-screen flex flex-col">
       {/* Navbar */}
@@ -54,7 +88,7 @@ export default function Home() {
           <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-8">
             Contáctanos
           </h2>
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6"> {/* 👉 agregado onSubmit */}
             <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                 Nombre
@@ -65,6 +99,8 @@ export default function Home() {
                 id="name"
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+				value={formData.name} // 👉 agregado
+				onChange={handleChange} // 👉 agregado
               />
             </div>
 
@@ -78,6 +114,8 @@ export default function Home() {
                 id="email"
                 required
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+				value={formData.email} // 👉 agregado
+				onChange={handleChange} // 👉 agregado
               />
             </div>
 
@@ -90,6 +128,8 @@ export default function Home() {
                 id="message"
                 rows={4}
                 required
+				value={formData.message} // 👉 agregado
+				onChange={handleChange} // 👉 agregado
                 className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
               ></textarea>
             </div>
@@ -103,6 +143,7 @@ export default function Home() {
               </button>
             </div>
           </form>
+		  {status && <p className="mt-4 text-center text-gray-700">{status}</p>} {/* 👉 agregado */}
         </div>
       </section>
 
