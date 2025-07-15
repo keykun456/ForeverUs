@@ -14,6 +14,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElemen
   }));
 };
 
+
 //manejador de envío
 const handleSubmit = async (e) => { // 👉 agregado
   e.preventDefault();
