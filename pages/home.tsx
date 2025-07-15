@@ -114,7 +114,7 @@ export default function Home() {
 	</nav>
 
 {/* Offset para que el navbar fijo no tape contenido */}
-<div className="pt-16"></div>
+<div className="pt-8"></div>
 
 
       {/* Offset exacto para que el navbar fijo no tape contenido */}
