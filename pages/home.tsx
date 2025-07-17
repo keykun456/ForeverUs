@@ -65,15 +65,50 @@ export default function Home() {
   };
 
   return (
-    <div id="home" className="min-h-screen flex flex-col">
+    <div id="home" className="min-h-screen flex flex-col scroll-smooth">
 
       {/* 🚀 Navbar fijo, oculto al bajar, visible al subir */}
       <nav 
         className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-          {/* Logo a la izquierda */}
-          <div className="text-2xl font-bold text-pink-600">ForeverUs</div>
+          {/* Logo animado a la izquierda con entrada tipo letra por letra */}
+          <motion.a
+            href="#home"
+            key={showNavbar.toString()} // fuerza re-render al cambiar visibilidad
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.05,
+                },
+              },
+            }}
+            className="text-2xl font-bold text-pink-600 flex"
+          >
+            {"Forever".split("").map((char, i) => (
+              <motion.span
+                key={`forever-${i}`}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                {char}
+              </motion.span>
+            ))}
+            {"Us".split("").map((char, i) => (
+              <motion.span
+                key={`us-${i}`}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.4 + i * 0.05 }}
+              >
+                {char}
+              </motion.span>
+            ))}
+          </motion.a>
 
           {/* Links desktop con subrayado animado */}
           <div className="space-x-4 hidden md:flex">
