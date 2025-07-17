@@ -1,6 +1,18 @@
 // components/ContactForm.tsx
 
 import { useState } from "react";
+import { z } from "zod"; // 👉 Importa Zod
+
+// 👉 Define el esquema de validación
+const contactSchema = z.object({
+  name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
+  email: z.string().email("Correo electrónico no válido"),
+  celular: z
+    .string()
+    .regex(/^\d{8,15}$/, "El número debe tener entre 8 y 15 dígitos"),
+  message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
+});
+
 
 /**
  * Componente ContactForm:
@@ -32,6 +44,18 @@ const ContactForm = () => {
   // 👉 Envía los datos al backend usando fetch
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+	
+	// 👉 Validar datos con Zod
+	const result = contactSchema.safeParse(formData);
+
+	if (!result.success) {
+	  // 👉 Mostrar errores en consola por ahora (más adelante los mostramos en pantalla)
+	  console.error(result.error.format());
+	  setStatus("Por favor revisa los campos marcados.");
+	  return;
+	}
+
+	
     setStatus("Enviando...");
     try {
       const res = await fetch("/api/contact", {
