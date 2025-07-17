@@ -65,75 +65,102 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-	
-	
+    <div id="home" className="min-h-screen flex flex-col">
+
       {/* 🚀 Navbar fijo, oculto al bajar, visible al subir */}
-	<nav 
-	  className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
-	>
-	  <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-		{/* Logo a la izquierda */}
-		<div className="text-2xl font-bold text-pink-600">ForeverUs</div>
+      <nav 
+        className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
+      >
+        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+          {/* Logo a la izquierda */}
+          <div className="text-2xl font-bold text-pink-600">ForeverUs</div>
 
-		{/* Links desktop con subrayado animado */}
-		<div className="space-x-4 hidden md:flex">
-		  <a href="#about" className="relative group text-gray-700 hover:text-pink-600">
-			Sobre nosotros
-			<span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
-		  </a>
-		  <a href="#services" className="relative group text-gray-700 hover:text-pink-600">
-			Servicios
-			<span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
-		  </a>
-		  <a href="#contact" className="relative group text-gray-700 hover:text-pink-600">
-			Contacto
-			<span className="absolute left-0 bottom-0 w-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
-		  </a>
-		</div>
+          {/* Links desktop con subrayado animado */}
+          <div className="space-x-4 hidden md:flex">
+            <a href="#about" className="relative group text-gray-700 hover:text-pink-600">
+              Sobre nosotros
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
+            </a>
+            <a href="#services" className="relative group text-gray-700 hover:text-pink-600">
+              Servicios
+              <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
+            </a>
+            <a href="#contact" className="relative group text-gray-700 hover:text-pink-600">
+              Contacto
+              <span className="absolute left-0 bottom-0 w-0.5 bg-pink-600 transition-all group-hover:w-full"></span>
+            </a>
+          </div>
 
-		{/* Botón ☰ visible solo en móvil, centrado verticalmente */}
-		<div className="md:hidden flex items-center h-full">
-		  <button 
-			onClick={() => setMenuOpen(!menuOpen)} 
-			className="text-gray-700 hover:text-pink-600 focus:outline-none text-3xl"
-		  >
-			☰
-		  </button>
-		</div>
-	  </div>
+          {/* Botón ☰ visible solo en móvil, centrado verticalmente */}
+          <div className="md:hidden flex items-center h-full">
+            <button 
+              onClick={() => setMenuOpen(!menuOpen)} 
+              className="text-gray-700 hover:text-pink-600 focus:outline-none text-3xl"
+            >
+              ☰
+            </button>
+          </div>
+        </div>
 
-	  {/* Menú desplegable mobile con fondo blanco semitransparente */}
-	  {menuOpen && (
-		<div className="flex flex-col mt-2 space-y-2 px-4 pb-4 md:hidden bg-white bg-opacity-95 shadow-md rounded-b-md">
-		  <a href="#about" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Sobre nosotros</a>
-		  <a href="#services" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Servicios</a>
-		  <a href="#contact" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Contacto</a>
-		</div>
-	  )}
-	</nav>
+        {/* Menú desplegable mobile con fondo blanco semitransparente */}
+        {menuOpen && (
+          <div className="flex flex-col mt-2 space-y-2 px-4 pb-4 md:hidden bg-white bg-opacity-95 shadow-md rounded-b-md">
+            <a href="#about" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Sobre nosotros</a>
+            <a href="#services" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Servicios</a>
+            <a href="#contact" onClick={() => setMenuOpen(false)} className="text-gray-700 hover:text-pink-600">Contacto</a>
+          </div>
+        )}
+      </nav>
 
       {/* Offset exacto para que el navbar fijo no tape contenido */}
       <div className="pt-16"></div>
 
-      {/* 🎉 Hero principal con animaciones */}
-      <main className="flex flex-1 min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-8">
-        <motion.h1
+      {/* 🎉 Hero principal con animación de letras "ForeverUs" */}
+      <main className="flex flex-1 min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white p-8 space-y-6">
+
+        {/* ✨ Título animado letra por letra, clickeable que redirige al inicio */}
+        <a
+          href="#home"
+          className="text-6xl md:text-7xl font-extrabold text-pink-400 tracking-tight flex space-x-1 hover:text-pink-300 transition-colors duration-300"
+          aria-label="Ir al inicio"
+        >
+          {"ForeverUs".split("").map((char, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: i * 0.08,
+                duration: 0.5,
+                ease: "easeOut",
+              }}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </a>
+
+        {/* 🖋️ Subtítulo principal */}
+        <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-5xl font-bold mb-6 text-center"
+          className="text-3xl md:text-4xl font-bold mb-4 text-center"
         >
           Hacemos del amor un momento sublime
-        </motion.h1>
+        </motion.h2>
+
+        {/* 💬 Frase descriptiva */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="text-xl text-center text-gray-200 mb-8"
+          className="text-lg md:text-xl text-center text-gray-200 mb-8"
         >
           Momentos que se vuelven memorias inolvidables
         </motion.p>
+
+        {/* 📞 Botón de contacto */}
         <motion.a
           whileHover={{ scale: 1.1 }}
           href="#contact"
