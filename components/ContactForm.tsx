@@ -36,23 +36,41 @@ const ContactForm = () => {
   const [status, setStatus] = useState("");
 
   // 👉 Maneja cambios en campos con validación por campo
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (
+	  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+	) => {
+	  const { name, value } = e.target;
 
-    setFormData((prev) => ({ ...prev, [name]: value }));
+	  // 👉 Cast explícito para que TS entienda que name es una key válida
+	  const field = name as keyof typeof formData;
 
-    const shape = (contactSchema as z.ZodObject<any>).shape;
-	const singleFieldSchema = shape[name as keyof typeof formData];
-    if (singleFieldSchema) {
-      const result = singleFieldSchema.safeParse(value);
-      if (!result.success) {
-        setErrors((prev) => ({ ...prev, [name]: result.error.issues[0].message }));
-      } else {
-        const { [name]: removed, ...rest } = errors;
-        setErrors(rest);
-      }
-    }
-  };
+	  // Actualiza los datos del formulario
+	  setFormData((prev) => ({
+		...prev,
+		[field]: value,
+	  }));
+
+	  // Validación individual con Zod
+	  if (contactSchema.shape[field]) {
+		const singleFieldSchema = contactSchema.shape[field];
+
+		const result = singleFieldSchema.safeParse(value);
+
+		if (!result.success) {
+		  setErrors((prev) => ({
+			...prev,
+			[field]: result.error.issues[0].message,
+		  }));
+		} else {
+		  // Elimina el error si el campo se validó correctamente
+		  setErrors((prev) => {
+			const newErrors = { ...prev };
+			delete newErrors[field];
+			return newErrors;
+		  });
+		}
+	  }
+	};
 
   // 👉 Maneja el envío del formulario
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
