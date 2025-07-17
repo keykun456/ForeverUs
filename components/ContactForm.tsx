@@ -9,7 +9,7 @@ const contactSchema = z.object({
   email: z.string().email("Correo electrónico no válido"),
   celular: z
     .string()
-    .regex(/^\d{8,15}$/, "El número debe tener entre 8 y 15 dígitos"),
+    .regex(/^[0-9]{8,15}$/, "El número debe tener entre 8 y 15 dígitos"),
   message: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
   empresa: z.string().max(0, "Campo inválido"), // 🕵️ Honeypot: debe estar vacío
 });
@@ -17,7 +17,7 @@ const contactSchema = z.object({
 /**
  * Componente ContactForm:
  * Muestra un formulario de contacto con validación en tiempo real usando Zod.
- * Incluye campo honeypot para prevenir bots.
+ * Incluye campo honeypot para prevenir bots y despliega un mensaje visual tras éxito.
  */
 const ContactForm = () => {
   // 👉 Estado del formulario
@@ -26,57 +26,48 @@ const ContactForm = () => {
     email: "",
     celular: "",
     message: "",
-    empresa: "", // 🕵️ Campo oculto para detectar bots
+    empresa: "",
   });
 
-  // 👉 Estado para errores por campo
+  // 👉 Estado para errores por campo (validación individual)
   const [errors, setErrors] = useState<Partial<Record<keyof typeof formData, string>>>({});
 
-  // 👉 Estado del envío
+  // 👉 Estado del envío general (enviando / error / info)
   const [status, setStatus] = useState("");
 
-  // 👉 Maneja cambios en campos con validación por campo
+  // 👉 Estado de éxito para mostrar confirmación elegante
+  const [success, setSuccess] = useState(false);
+
+  // 👉 Maneja cambios en los campos del formulario con validación individual
   const handleChange = (
-	  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-	  const { name, value } = e.target;
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    const field = name as keyof typeof formData;
 
-	  // 👉 Cast explícito para que TS entienda que name es una key válida
-	  const field = name as keyof typeof formData;
+    // 👉 Actualiza el estado del formulario
+    setFormData((prev) => ({ ...prev, [field]: value }));
 
-	  // Actualiza los datos del formulario
-	  setFormData((prev) => ({
-		...prev,
-		[field]: value,
-	  }));
+    // 👉 Ejecuta validación por campo usando el esquema
+    if (contactSchema.shape[field]) {
+      const result = contactSchema.shape[field].safeParse(value);
+      if (!result.success) {
+        setErrors((prev) => ({ ...prev, [field]: result.error.issues[0].message }));
+      } else {
+        setErrors((prev) => {
+          const newErrors = { ...prev };
+          delete newErrors[field];
+          return newErrors;
+        });
+      }
+    }
+  };
 
-	  // Validación individual con Zod
-	  if (contactSchema.shape[field]) {
-		const singleFieldSchema = contactSchema.shape[field];
-
-		const result = singleFieldSchema.safeParse(value);
-
-		if (!result.success) {
-		  setErrors((prev) => ({
-			...prev,
-			[field]: result.error.issues[0].message,
-		  }));
-		} else {
-		  // Elimina el error si el campo se validó correctamente
-		  setErrors((prev) => {
-			const newErrors = { ...prev };
-			delete newErrors[field];
-			return newErrors;
-		  });
-		}
-	  }
-	};
-
-  // 👉 Maneja el envío del formulario
+  // 👉 Envía los datos al backend y muestra confirmación visual si fue exitoso
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // 👉 Validación total
+    // 👉 Validación completa del formulario antes de enviar
     const result = contactSchema.safeParse(formData);
     if (!result.success) {
       const fieldErrors: Partial<Record<keyof typeof formData, string>> = {};
@@ -105,7 +96,9 @@ const ContactForm = () => {
 
       if (!res.ok) throw new Error("Error al enviar");
 
-      setStatus("¡Mensaje enviado con éxito!");
+      // 👉 Éxito: limpia formulario y muestra UI de éxito
+      setStatus("");
+      setSuccess(true);
       setFormData({ name: "", email: "", celular: "", message: "", empresa: "" });
     } catch (err) {
       console.error(err);
@@ -117,97 +110,106 @@ const ContactForm = () => {
     <section id="contact" className="bg-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-8">Contáctanos</h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Campo Nombre */}
-          <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre</label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
-              value={formData.name}
-              onChange={handleChange}
-            />
-            {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
-          </div>
 
-          {/* Campo Email */}
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              required
-              className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
-              value={formData.email}
-              onChange={handleChange}
-            />
-            {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
+        {/* ✅ Si fue exitoso, se muestra un mensaje elegante */}
+        {success ? (
+          <div className="bg-green-50 border border-green-200 text-green-900 rounded-xl p-8 shadow-md text-center">
+            <h3 className="text-3xl font-bold mb-2">¡Gracias por tu mensaje!</h3>
+            <p className="text-lg">Un concierge de experiencias se comunicará contigo muy pronto para brindarte una atención completamente personalizada.</p>
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Campo Nombre */}
+            <div>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre</label>
+              <input
+                type="text"
+                name="name"
+                id="name"
+                required
+                className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name}</p>}
+            </div>
 
-          {/* Campo Celular */}
-          <div>
-            <label htmlFor="celular" className="block text-sm font-medium text-gray-700">Celular</label>
-            <input
-              type="tel"
-              name="celular"
-              id="celular"
-              pattern="[0-9]{8,15}"
-              required
-              placeholder="Ej. 5544332211"
-              className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
-              value={formData.celular}
-              onChange={handleChange}
-            />
-            {errors.celular && <p className="text-sm text-red-600 mt-1">{errors.celular}</p>}
-          </div>
+            {/* Campo Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Correo electrónico</label>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                required
+                className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email}</p>}
+            </div>
 
-          {/* Campo Mensaje */}
-          <div>
-            <label htmlFor="message" className="block text-sm font-medium text-gray-700">Mensaje</label>
-            <textarea
-              name="message"
-              id="message"
-              rows={4}
-              required
-              className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
-              value={formData.message}
-              onChange={handleChange}
-            ></textarea>
-            {errors.message && <p className="text-sm text-red-600 mt-1">{errors.message}</p>}
-          </div>
+            {/* Campo Celular */}
+            <div>
+              <label htmlFor="celular" className="block text-sm font-medium text-gray-700">Celular</label>
+              <input
+                type="tel"
+                name="celular"
+                id="celular"
+                pattern="[0-9]{8,15}"
+                required
+                placeholder="Ej. 5544332211"
+                className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+                value={formData.celular}
+                onChange={handleChange}
+              />
+              {errors.celular && <p className="text-sm text-red-600 mt-1">{errors.celular}</p>}
+            </div>
 
-          {/* 🕵️ Campo Honeypot oculto */}
-          <div className="hidden">
-            <label htmlFor="empresa">Empresa</label>
-            <input
-              type="text"
-              name="empresa"
-              id="empresa"
-              autoComplete="off"
-              tabIndex={-1}
-              value={formData.empresa}
-              onChange={handleChange}
-            />
-          </div>
+            {/* Campo Mensaje */}
+            <div>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700">Mensaje</label>
+              <textarea
+                name="message"
+                id="message"
+                rows={4}
+                required
+                className="mt-1 block w-full border rounded-md shadow-sm p-2 focus:ring-pink-500 focus:border-pink-500"
+                value={formData.message}
+                onChange={handleChange}
+              ></textarea>
+              {errors.message && <p className="text-sm text-red-600 mt-1">{errors.message}</p>}
+            </div>
 
-          {/* Botón de envío */}
-          <div>
-            <button
-              type="submit"
-              disabled={status === "Enviando..."}
-              className="w-full py-3 px-6 border shadow-sm text-lg font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Enviar mensaje
-            </button>
-          </div>
-        </form>
+            {/* 🕵️ Campo Honeypot oculto */}
+            <div className="hidden">
+              <label htmlFor="empresa">Empresa</label>
+              <input
+                type="text"
+                name="empresa"
+                id="empresa"
+                autoComplete="off"
+                tabIndex={-1}
+                value={formData.empresa}
+                onChange={handleChange}
+              />
+            </div>
 
-        {/* Mensaje dinámico de estado */}
-        {status && <p className="mt-4 text-center text-gray-700">{status}</p>}
+            {/* Botón de envío */}
+            <div>
+              <button
+                type="submit"
+                disabled={status === "Enviando..."}
+                className="w-full py-3 px-6 border shadow-sm text-lg font-medium rounded-md text-white bg-pink-600 hover:bg-pink-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Enviar mensaje
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Estado visible si hay error o advertencia */}
+        {status && !success && <p className="mt-4 text-center text-gray-700">{status}</p>}
       </div>
     </section>
   );
