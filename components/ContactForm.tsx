@@ -41,7 +41,8 @@ const ContactForm = () => {
 
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    const singleFieldSchema = contactSchema.shape[name as keyof typeof contactSchema];
+    const shape = (contactSchema as z.ZodObject<any>).shape;
+	const singleFieldSchema = shape[name as keyof typeof formData];
     if (singleFieldSchema) {
       const result = singleFieldSchema.safeParse(value);
       if (!result.success) {
