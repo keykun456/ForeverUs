@@ -108,41 +108,46 @@ const Navbar = () => {
         </div>
 
         {/* 📱 Menú móvil tipo overlay con animación */}
-        <AnimatePresence>
-          {menuOpen && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-50 bg-white bg-opacity-95 backdrop-blur-sm flex flex-col items-center justify-center space-y-8 px-6 py-12 md:hidden"
-            >
-              {/* ❌ Botón cerrar */}
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="absolute top-6 right-6 text-3xl text-gray-700 hover:text-pink-600"
-                aria-label="Cerrar menú"
-              >
-                &times;
-              </button>
+		<AnimatePresence>
+		  {menuOpen && (
+			<motion.div
+			  initial={{ opacity: 0, scale: 0.98 }}
+			  animate={{ opacity: 1, scale: 1 }}
+			  exit={{ opacity: 0, scale: 0.95 }}
+			  transition={{ duration: 0.3 }}
+			  // 🎯 Fondo sólido, sin transparencia y z-index muy alto
+			  className="fixed inset-0 z-[999] bg-white flex flex-col items-center justify-center space-y-8 px-6 py-12 md:hidden"
+			>
+			  {/* ❌ Botón cerrar menú */}
+			  <button
+				onClick={() => setMenuOpen(false)}
+				className="absolute top-6 right-6 text-3xl text-gray-700 hover:text-pink-600"
+				aria-label="Cerrar menú"
+			  >
+				&times;
+			  </button>
 
-              {/* 📋 Enlaces del menú móvil */}
-              {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
-                const href = ["#about", "#services", "#contact"][idx];
-                return (
-                  <a
-                    key={label}
-                    href={href}
-                    onClick={() => setMenuOpen(false)}
-                    className="text-2xl font-semibold text-gray-800 hover:text-pink-600 transition"
-                  >
-                    {label}
-                  </a>
-                );
-              })}
-            </motion.div>
-          )}
-        </AnimatePresence>
+			  {/* 📋 Enlaces del menú, ahora bien visibles */}
+			  {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
+				const href = ["#about", "#services", "#contact"][idx];
+				return (
+				  <a
+					key={label}
+					href={href}
+					onClick={() => setMenuOpen(false)}
+					className="text-2xl font-semibold text-gray-900 hover:text-pink-600 transition"
+				  >
+					{label}
+				  </a>
+				);
+			  })}
+			</motion.div>
+		  )}
+		</AnimatePresence>
+
+		
+		
+		
       </nav>
 
       {/* 🧱 Espaciador para compensar navbar fija */}
