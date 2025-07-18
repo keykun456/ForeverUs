@@ -40,6 +40,14 @@ const Navbar = () => {
   if (!window.location.hash) {
     window.scrollTo(0, 0);
   }}, []);
+  
+  // 🧼 Forzar scroll al top en móviles para evitar que se posicione en el anchor tras recarga
+  useEffect(() => {
+  const isMobile = window.innerWidth < 768;
+  if (isMobile && window.location.hash) {
+    window.scrollTo(0, 0);
+    history.replaceState(null, "", window.location.pathname); // 🔁 Limpia el hash sin recargar
+  }}, []);
 
   return (
     <>
