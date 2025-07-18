@@ -1,29 +1,25 @@
 // components/Navbar.tsx
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // ✨ Importamos AnimatePresence para animación condicional
+import { motion, AnimatePresence } from "framer-motion"; // ✨ Animación condicional con Framer Motion
 
 /**
  * Componente Navbar:
- * Muestra una barra de navegación fija que desaparece al hacer scroll hacia abajo.
- * Incluye navegación para escritorio y menú móvil tipo overlay animado.
+ * Barra de navegación fija que se oculta al hacer scroll hacia abajo.
+ * Tiene navegación para escritorio y menú móvil tipo overlay animado.
  */
 const Navbar = () => {
-  // 👉 Control de visibilidad según el scroll
+  // 👉 Visibilidad del navbar según scroll
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   // 👉 Control del menú móvil
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 🎯 Efecto para ocultar la navbar al hacer scroll hacia abajo
+  // 🎯 Efecto para ocultar el navbar al hacer scroll hacia abajo
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > lastScrollY) {
-        setShowNavbar(false);
-      } else {
-        setShowNavbar(true);
-      }
+      setShowNavbar(window.scrollY < lastScrollY);
       setLastScrollY(window.scrollY);
     };
     window.addEventListener("scroll", handleScroll);
@@ -37,13 +33,14 @@ const Navbar = () => {
 
   return (
     <>
-      {/* 🚀 Barra de navegación fija con animación */}
+      {/* 🚀 Navbar fijo con animación de aparición/desaparición */}
       <nav
         className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+
           {/* 🎨 Logo animado letra por letra */}
           <motion.a
             href="#home"
@@ -78,7 +75,7 @@ const Navbar = () => {
             ))}
           </motion.a>
 
-          {/* 🖱️ Navegación escritorio */}
+          {/* 🖱️ Menú de escritorio con efecto subrayado */}
           <div className="space-x-4 hidden md:flex">
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
               const href = ["#about", "#services", "#contact"][idx];
@@ -106,49 +103,44 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-
-        {/* 📱 Menú móvil tipo overlay con animación */}
-		<AnimatePresence>
-		  {menuOpen && (
-			<motion.div
-			  initial={{ opacity: 0, scale: 0.98 }}
-			  animate={{ opacity: 1, scale: 1 }}
-			  exit={{ opacity: 0, scale: 0.95 }}
-			  transition={{ duration: 0.3 }}
-			  // 🎯 Fondo sólido, sin transparencia y z-index muy alto
-			  className="fixed inset-0 z-[999] bg-white flex flex-col items-center justify-center space-y-8 px-6 py-12 md:hidden"
-			>
-			  {/* ❌ Botón cerrar menú */}
-			  <button
-				onClick={() => setMenuOpen(false)}
-				className="absolute top-6 right-6 text-3xl text-gray-700 hover:text-pink-600"
-				aria-label="Cerrar menú"
-			  >
-				&times;
-			  </button>
-
-			  {/* 📋 Enlaces del menú, ahora bien visibles */}
-			  {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
-				const href = ["#about", "#services", "#contact"][idx];
-				return (
-				  <a
-					key={label}
-					href={href}
-					onClick={() => setMenuOpen(false)}
-					className="text-2xl font-semibold text-gray-900 hover:text-pink-600 transition"
-				  >
-					{label}
-				  </a>
-				);
-			  })}
-			</motion.div>
-		  )}
-		</AnimatePresence>
-
-		
-		
-		
       </nav>
+
+      {/* 📱 Overlay animado del menú móvil fuera del <nav> */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[999] bg-white min-h-screen overflow-y-auto flex flex-col items-center justify-start space-y-8 px-6 pt-24 pb-12 md:hidden"
+          >
+            {/* ❌ Botón para cerrar menú */}
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="absolute top-6 right-6 text-3xl text-gray-700 hover:text-pink-600"
+              aria-label="Cerrar menú"
+            >
+              &times;
+            </button>
+
+            {/* 📋 Enlaces del menú */}
+            {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
+              const href = ["#about", "#services", "#contact"][idx];
+              return (
+                <a
+                  key={label}
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                  className="text-2xl font-semibold text-gray-900 hover:text-pink-600 transition"
+                >
+                  {label}
+                </a>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* 🧱 Espaciador para compensar navbar fija */}
       <div className="pt-16"></div>
