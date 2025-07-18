@@ -1,25 +1,29 @@
 // components/Navbar.tsx
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // ✨ Animación condicional con Framer Motion
+import { motion, AnimatePresence } from "framer-motion"; // ✨ Importamos AnimatePresence para animación condicional
 
 /**
  * Componente Navbar:
- * Barra de navegación fija que se oculta al hacer scroll hacia abajo.
- * Tiene navegación para escritorio y menú móvil tipo overlay animado.
+ * Muestra una barra de navegación fija que desaparece al hacer scroll hacia abajo.
+ * Incluye navegación para escritorio y menú móvil tipo overlay animado.
  */
 const Navbar = () => {
-  // 👉 Visibilidad del navbar según scroll
+  // 👉 Control de visibilidad según el scroll
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   // 👉 Control del menú móvil
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 🎯 Efecto para ocultar el navbar al hacer scroll hacia abajo
+  // 🎯 Efecto para ocultar la navbar al hacer scroll hacia abajo, pero evita esconderla si el scroll inicial es menor a 20px
   useEffect(() => {
     const handleScroll = () => {
-      setShowNavbar(window.scrollY < lastScrollY);
+      if (window.scrollY - lastScrollY > 10) {
+        setShowNavbar(false);
+      } else if (lastScrollY - window.scrollY > 10 || window.scrollY < 20) {
+        setShowNavbar(true);
+      }
       setLastScrollY(window.scrollY);
     };
     window.addEventListener("scroll", handleScroll);
@@ -33,14 +37,13 @@ const Navbar = () => {
 
   return (
     <>
-      {/* 🚀 Navbar fijo con animación de aparición/desaparición */}
+      {/* 🚀 Barra de navegación fija con animación */}
       <nav
         className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-
           {/* 🎨 Logo animado letra por letra */}
           <motion.a
             href="#home"
@@ -75,7 +78,7 @@ const Navbar = () => {
             ))}
           </motion.a>
 
-          {/* 🖱️ Menú de escritorio con efecto subrayado */}
+          {/* 🖱️ Navegación escritorio */}
           <div className="space-x-4 hidden md:flex">
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
               const href = ["#about", "#services", "#contact"][idx];
@@ -105,14 +108,16 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* 📱 Overlay animado del menú móvil fuera del <nav> */}
+      {/* 📱 Menú móvil tipo overlay con animación */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            // Animación de entrada/salida suave
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
+            // Fondo sólido, altura completa, bloqueo scroll visual
             className="fixed inset-0 z-[999] bg-white min-h-screen overflow-y-auto flex flex-col items-center justify-start space-y-8 px-6 pt-24 pb-12 md:hidden"
           >
             {/* ❌ Botón para cerrar menú */}
