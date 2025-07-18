@@ -95,7 +95,7 @@ const Navbar = () => {
           {/* 🖱️ Navegación escritorio */}
           <div className="space-x-4 hidden md:flex">
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
-              const href = ["#about", "#services", "#contact"][idx];
+              const href = ["#aboutus", "#services", "#contact"][idx];
               return (
                 <a
                   key={label}
@@ -145,7 +145,7 @@ const Navbar = () => {
 
             {/* 📋 Enlaces del menú */}
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
-              const href = ["#about", "#services", "#contact"][idx];
+              const href = ["#aboutus", "#services", "#contact"][idx];
               return (
                 <a
                   key={label}

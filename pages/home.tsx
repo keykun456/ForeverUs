@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar"; // 👉 Importa el navbar reutilizable
 import Hero from "@/components/Hero"; // 👉 Importa el Hero reutilizable
 import ContactForm from "@/components/ContactForm"; // 👉 Componente de formulario
 import Services from "@/components/Services"; // 🧩 Importa la nueva sección de servicios
-import About from "@/components/About"; // 🧠 Sección informativa
+import AboutUs from "@/components/AboutUs"; // 🧠 Sección informativa
 
 
 /**
@@ -22,7 +22,7 @@ export default function Home() {
 		<Hero />
 		
 		{/* 🧠 Nueva sección de confianza */}
-		<About />       
+		<AboutUs />       
 		
 		{/* 🎯 Nueva sección de servicios */}
 		<Services />  
