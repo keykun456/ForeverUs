@@ -1,7 +1,9 @@
 import React from "react";
-import Navbar from "../components/Navbar"; // 👉 Importa el navbar reutilizable
-import Hero from "../components/Hero"; // 👉 Importa el Hero reutilizable
-import ContactForm from "../components/ContactForm"; // 👉 Componente de formulario
+
+import Navbar from "@/components/Navbar"; // 👉 Importa el navbar reutilizable
+import Hero from "@/components/Hero"; // 👉 Importa el Hero reutilizable
+import ContactForm from "@/components/ContactForm"; // 👉 Componente de formulario
+import Services from "@/components/Services"; // 🧩 Importa la nueva sección de servicios
 
 /**
  * Página principal Home:
@@ -16,6 +18,9 @@ export default function Home() {
 
 		{/* 🎉 Hero animado como componente */}
 		<Hero />
+		
+		{/* 🎯 Nueva sección de servicios */}
+		<Services />  
 		
 		{/* 📝 Formulario como componente separado */}
 		<ContactForm />

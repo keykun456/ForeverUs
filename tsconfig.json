@@ -13,8 +13,11 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+
+    "baseUrl": ".", // ✅ Añade esto si no está
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"], // ya lo tienes 👍
+      "@/components/*": ["components/*"] // ✅ Agrega esta línea
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
