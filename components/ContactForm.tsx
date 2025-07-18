@@ -104,7 +104,7 @@ const ContactForm = () => {
   };
 
   return (
-    <section id="contact" className="bg-white py-20 px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="bg-gray-100 py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <AnimatePresence>
           {success ? (
