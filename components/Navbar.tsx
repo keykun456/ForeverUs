@@ -109,7 +109,7 @@ const Navbar = () => {
 
         {/* 📋 Menú móvil que aparece al tocar el botón hamburguesa */}
         {menuOpen && (
-          <div className="flex flex-col mt-2 space-y-2 px-4 pb-4 md:hidden bg-white bg-opacity-95 shadow-md rounded-b-md">
+          <div className="flex flex-col mt-2 space-y-4 px-6 py-4 md:hidden bg-white shadow-xl rounded-b-2xl border border-pink-200">
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
               const href = ["#about", "#services", "#contact"][idx];
               return (
