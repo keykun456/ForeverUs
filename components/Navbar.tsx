@@ -1,29 +1,28 @@
 // components/Navbar.tsx
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion"; // ✨ Importamos AnimatePresence para animación condicional
 
 /**
  * Componente Navbar:
- * Muestra una barra de navegación fija en la parte superior que se oculta al hacer scroll hacia abajo
- * y aparece nuevamente al hacer scroll hacia arriba.
- * Incluye navegación para escritorio y menú hamburguesa para móviles.
+ * Muestra una barra de navegación fija que desaparece al hacer scroll hacia abajo.
+ * Incluye navegación para escritorio y menú móvil tipo overlay animado.
  */
 const Navbar = () => {
-  // Estado para mostrar u ocultar la navbar según el scroll
+  // 👉 Control de visibilidad según el scroll
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Estado para abrir/cerrar el menú hamburguesa en modo móvil
+  // 👉 Control del menú móvil
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // useEffect para detectar el scroll y alternar visibilidad de la navbar
+  // 🎯 Efecto para ocultar la navbar al hacer scroll hacia abajo
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY) {
-        setShowNavbar(false); // ocultar si hace scroll hacia abajo
+        setShowNavbar(false);
       } else {
-        setShowNavbar(true); // mostrar si hace scroll hacia arriba
+        setShowNavbar(true);
       }
       setLastScrollY(window.scrollY);
     };
@@ -31,17 +30,21 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
 
+  // ❌ Bloquea el scroll del fondo cuando el menú está abierto
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+  }, [menuOpen]);
+
   return (
     <>
-      {/* 🚀 Navbar fijo con animación de entrada/salida */}
+      {/* 🚀 Barra de navegación fija con animación */}
       <nav
         className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-          
-          {/* 🎨 Logo animado letra por letra con Framer Motion */}
+          {/* 🎨 Logo animado letra por letra */}
           <motion.a
             href="#home"
             key={showNavbar.toString()}
@@ -49,11 +52,7 @@ const Navbar = () => {
             animate="visible"
             variants={{
               hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.05,
-                },
-              },
+              visible: { transition: { staggerChildren: 0.05 } },
             }}
             className="text-2xl font-bold text-pink-600 flex"
           >
@@ -79,7 +78,7 @@ const Navbar = () => {
             ))}
           </motion.a>
 
-          {/* 🖱️ Navegación para escritorio con animación de subrayado */}
+          {/* 🖱️ Navegación escritorio */}
           <div className="space-x-4 hidden md:flex">
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
               const href = ["#about", "#services", "#contact"][idx];
@@ -96,38 +95,57 @@ const Navbar = () => {
             })}
           </div>
 
-          {/* 📱 Botón hamburguesa visible solo en dispositivos móviles */}
+          {/* 📱 Botón hamburguesa */}
           <div className="md:hidden flex items-center h-full">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="text-gray-700 hover:text-pink-600 focus:outline-none text-3xl"
+              aria-label="Abrir menú móvil"
             >
               ☰
             </button>
           </div>
         </div>
 
-        {/* 📋 Menú móvil que aparece al tocar el botón hamburguesa */}
-        {menuOpen && (
-          <div className="flex flex-col mt-2 space-y-4 px-6 py-4 md:hidden bg-white shadow-xl rounded-b-2xl border border-pink-200">
-            {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
-              const href = ["#about", "#services", "#contact"][idx];
-              return (
-                <a
-                  key={label}
-                  href={href}
-                  onClick={() => setMenuOpen(false)}
-                  className="text-gray-700 hover:text-pink-600"
-                >
-                  {label}
-                </a>
-              );
-            })}
-          </div>
-        )}
+        {/* 📱 Menú móvil tipo overlay con animación */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 z-50 bg-white bg-opacity-95 backdrop-blur-sm flex flex-col items-center justify-center space-y-8 px-6 py-12 md:hidden"
+            >
+              {/* ❌ Botón cerrar */}
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="absolute top-6 right-6 text-3xl text-gray-700 hover:text-pink-600"
+                aria-label="Cerrar menú"
+              >
+                &times;
+              </button>
+
+              {/* 📋 Enlaces del menú móvil */}
+              {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
+                const href = ["#about", "#services", "#contact"][idx];
+                return (
+                  <a
+                    key={label}
+                    href={href}
+                    onClick={() => setMenuOpen(false)}
+                    className="text-2xl font-semibold text-gray-800 hover:text-pink-600 transition"
+                  >
+                    {label}
+                  </a>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
-      {/* 🛑 Espaciador para que el navbar no cubra el contenido al inicio */}
+      {/* 🧱 Espaciador para compensar navbar fija */}
       <div className="pt-16"></div>
     </>
   );
