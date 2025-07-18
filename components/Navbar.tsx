@@ -34,6 +34,12 @@ const Navbar = () => {
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
+  
+  // Solo lo ejecuta si no hay un hash en la URL
+  useEffect(() => {
+  if (!window.location.hash) {
+    window.scrollTo(0, 0);
+  }}, []);
 
   return (
     <>
