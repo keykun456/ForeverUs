@@ -1,6 +1,7 @@
 // components/Hero.tsx
 
 import { motion } from "framer-motion";
+import { Heart, Gift, Calendar } from "lucide-react";
 
 /**
  * Componente Hero:
@@ -42,6 +43,32 @@ const Hero = () => {
       >
         Hacemos del amor un momento sublime
       </motion.h2>
+	  
+	{/* 🧷 Mini resumen de servicios */}
+	<motion.div
+	  className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center mt-6 max-w-4xl"
+	  initial={{ opacity: 0 }}
+	  animate={{ opacity: 1 }}
+	  transition={{ delay: 1 }}
+	>
+	  <div>
+		<Heart className="w-8 h-8 mx-auto text-pink-400 mb-2" />
+		<h3 className="text-lg font-semibold">Experiencias románticas</h3>
+		<p className="text-sm text-gray-300">Momentos inolvidables diseñados para enamorar.</p>
+	  </div>
+	  <div>
+		<Gift className="w-8 h-8 mx-auto text-pink-400 mb-2" />
+		<h3 className="text-lg font-semibold">Detalles únicos</h3>
+		<p className="text-sm text-gray-300">Flores, obsequios y sorpresas con intención.</p>
+	  </div>
+	  <div>
+		<Calendar className="w-8 h-8 mx-auto text-pink-400 mb-2" />
+		<h3 className="text-lg font-semibold">Eventos a la medida</h3>
+		<p className="text-sm text-gray-300">Creamos y coordinamos experiencias personalizadas.</p>
+	  </div>
+	</motion.div>
+
+	  
 
       {/* 💬 Frase descriptiva más pequeña */}
       <motion.p
