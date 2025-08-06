@@ -1,39 +1,48 @@
 // components/HeroNuevo.tsx
+
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Heart, Gift, Calendar } from "lucide-react";
 
-// 👉 Lista de rutas de las imágenes que rotarán
+// ✅ Componente personalizado de Botón sin dependencia externa
+const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
+  <button
+    className="bg-white text-black font-medium px-4 py-2 rounded-md shadow hover:bg-gray-200 transition"
+    {...props}
+  >
+    {children}
+  </button>
+);
+
+// 👉 Lista de imágenes que se usarán como fondo y rotarán automáticamente
 const images = ["/img/hero1.jpg", "/img/hero2.jpg", "/img/hero3.jpg"];
 
 export default function HeroNuevo() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 🔄 índice de la imagen actual
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 🔢 Índice de la imagen actual
 
   // 🔁 Cambia la imagen cada 6 segundos
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 6000); // 6000 ms = 6 segundos
-
-    return () => clearInterval(interval); // 🧼 Limpia el intervalo al desmontar
+    }, 6000);
+    return () => clearInterval(interval); // 🧼 Limpia el intervalo cuando el componente se desmonta
   }, []);
 
   return (
     <section
       className="relative w-full h-screen bg-cover bg-center flex flex-col justify-end items-center text-white p-4"
-      style={{ backgroundImage: `url(${images[currentImageIndex]})` }} // 🎯 Fondo dinámico
+      style={{ backgroundImage: `url(${images[currentImageIndex]})` }} // 🎯 Aplica la imagen actual como fondo
     >
-      {/* 🔲 Capa oscura encima de la imagen para mejor legibilidad */}
+      {/* 🔲 Capa oscura encima de la imagen para mejorar la legibilidad del texto */}
       <div className="absolute inset-0 bg-black/40" />
 
-      {/* 🧠 Contenido principal: título, subtítulo y botón */}
+      {/* 🌟 Contenido centrado con título, subtítulo y botón */}
       <div className="relative z-10 text-center mb-10">
         <h1 className="text-5xl font-bold text-pink-400 animate-pulse">ForeverUs</h1>
         <p className="mt-4 text-lg md:text-xl">Hacemos del amor un momento sublime</p>
         <Button className="mt-6 text-lg px-6 py-2">Ver servicios</Button>
       </div>
 
-      {/* ❤️ Íconos de servicios alineados en columnas */}
+      {/* 🎯 Íconos de servicios en grid responsiva */}
       <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6 w-full max-w-4xl text-center">
         <ServiceIcon icon={<Heart size={32} />} label="Experiencias románticas" />
         <ServiceIcon icon={<Gift size={32} />} label="Detalles únicos" />
@@ -43,7 +52,7 @@ export default function HeroNuevo() {
   );
 }
 
-// ✅ Componente reutilizable para cada ícono con texto
+// 🔧 Componente reutilizable para mostrar íconos con etiquetas
 function ServiceIcon({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
     <div className="flex flex-col items-center justify-center text-white">
@@ -52,6 +61,3 @@ function ServiceIcon({ icon, label }: { icon: React.ReactNode; label: string }) 
     </div>
   );
 }
-
-
-export default HeroNuevo;
