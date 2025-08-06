@@ -61,7 +61,7 @@ const AboutUs = () => {
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.3 }}
         >
-          En <span className="font-semibold text-pink-600">ForeverUs</span> creemos que cada instante puede transformarse en un recuerdo eterno. Nuestro equipo de expertos en experiencias personalizadas se dedica a crear momentos únicos, románticos e inolvidables, hechos a la medida de quienes más amas.
+          En <span className="font-semibold text-pink-600">ForeverUs</span> creemos que cada instante puede transformarse en un recuerdo eterno. Nuestro equipo de expertos en experiencias personalizadas se dedica a crear momentos únicos, románticos e inolvidables.
         </motion.p>
 
         {/* 🎯 Misión y Visión en grid */}
