@@ -1,5 +1,4 @@
 // components/HeroNuevo.tsx
-
 import { useEffect, useState } from "react";
 import { Heart, Gift, Calendar } from "lucide-react";
 
@@ -13,18 +12,16 @@ const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonEle
   </button>
 );
 
-// 👉 Lista de imágenes que se usarán como fondo y rotarán automáticamente
+// 👉 Lista de imágenes que se usarán como fondo (rotación solo al cargar)
 const images = ["/img/hero1.jpg", "/img/hero2.jpg", "/img/hero3.jpg"];
 
 export default function HeroNuevo() {
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 🔢 Índice de la imagen actual
+  // 🔢 Escoge una imagen aleatoria solo una vez al cargar
+  const [currentImageIndex] = useState(() => Math.floor(Math.random() * images.length));
 
-  // 🔁 Cambia la imagen cada 6 segundos
+  // 🔄 Siempre vuelve al inicio (top de la página) al recargar
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 6000);
-    return () => clearInterval(interval); // 🧼 Limpia el intervalo cuando el componente se desmonta
+    window.scrollTo(0, 0);
   }, []);
 
   return (
@@ -61,3 +58,4 @@ function ServiceIcon({ icon, label }: { icon: React.ReactNode; label: string }) 
     </div>
   );
 }
+
