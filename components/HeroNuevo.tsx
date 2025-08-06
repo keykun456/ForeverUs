@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Heart, Gift, Calendar } from "lucide-react";
-import { useRouter } from "next/router"; // 👈 Necesario para detectar hash
+import { useRouter } from "next/router";
 
 // ✅ Componente personalizado de Botón sin dependencia externa
 const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
@@ -14,11 +14,11 @@ const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonEle
   </button>
 );
 
-// 👉 Lista de imágenes que se usarán como fondo (rotación solo al cargar)
+// 👉 Lista de imágenes que se usarán como fondo
 const images = ["/img/hero1.jpg", "/img/hero2.jpg", "/img/hero3.jpg"];
 
 export default function HeroNuevo() {
-  const [currentImageIndex] = useState(() => Math.floor(Math.random() * images.length)); // 🎲 Imagen aleatoria
+  const [currentImageIndex, setCurrentImageIndex] = useState(0); // 👈 Inicializamos en 0
   const router = useRouter();
 
   // 🔄 Solo hacer scroll al inicio si no hay hash en la URL
@@ -27,6 +27,12 @@ export default function HeroNuevo() {
       window.scrollTo(0, 0);
     }
   }, [router.asPath]);
+
+  // 🎲 Elegir una imagen aleatoria solo en cliente (después de montar)
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * images.length);
+    setCurrentImageIndex(randomIndex);
+  }, []);
 
   return (
     <section
