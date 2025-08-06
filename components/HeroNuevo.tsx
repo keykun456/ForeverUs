@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { Heart, Gift, Calendar } from "lucide-react";
 import { useRouter } from "next/router";
 
-// ✅ Componente personalizado de Botón sin dependencia externa
+// ✅ Componente personalizado de Botón con estilo elegante
 const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
   <button
-    className="bg-white text-black font-medium px-4 py-2 rounded-md shadow hover:bg-gray-200 transition"
+    className="border border-white text-white font-medium px-6 py-2 rounded-full backdrop-blur-md bg-white/10 hover:bg-white/20 transition shadow"
     {...props}
   >
     {children}
@@ -36,24 +36,26 @@ export default function HeroNuevo() {
 
   return (
     <section
-      className="relative w-full h-screen bg-cover bg-center flex flex-col justify-center items-center text-white p-4"
+      className="relative w-full h-screen bg-cover bg-center flex flex-col justify-between text-white p-4"
       style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
     >
       {/* 🔲 Capa oscura encima de la imagen para mejorar la legibilidad del texto */}
       <div className="absolute inset-0 bg-black/60" />
 
       {/* 🌟 Contenido centrado con título, subtítulo y botón */}
-      <div className="relative z-10 text-center mb-10 px-4">
+      <div className="relative z-10 text-center mt-20 px-4">
         <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-md">ForeverUs</h1>
         <p className="mt-4 text-lg md:text-xl drop-shadow-md">Hacemos del amor un momento sublime</p>
-        <Button className="mt-6 text-lg px-6 py-2">Ver servicios</Button>
+        <div className="mt-6">
+          <Button>Ver servicios</Button>
+        </div>
       </div>
 
       {/* 🎯 Íconos de servicios en grid responsiva */}
-      <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-y-4 gap-x-6 mb-12 w-full max-w-4xl text-center px-4">
-        <ServiceIcon icon={<Heart size={32} />} label="Experiencias románticas" />
-        <ServiceIcon icon={<Gift size={32} />} label="Detalles únicos" />
-        <ServiceIcon icon={<Calendar size={32} />} label="Eventos a la medida" />
+      <div className="relative z-10 grid grid-cols-3 gap-3 mb-8 w-full max-w-3xl text-center px-4">
+        <ServiceIcon icon={<Heart size={28} />} label={"Experiencias\nrománticas"} />
+        <ServiceIcon icon={<Gift size={28} />} label={"Detalles\núnicos"} />
+        <ServiceIcon icon={<Calendar size={28} />} label={"Eventos a la\nmedida"} />
       </div>
     </section>
   );
@@ -62,9 +64,9 @@ export default function HeroNuevo() {
 // 🔧 Componente reutilizable para mostrar íconos con etiquetas
 function ServiceIcon({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <div className="flex flex-col items-center justify-center text-white py-2">
+    <div className="flex flex-col items-center justify-center text-white">
       {icon}
-      <span className="mt-2 text-sm md:text-base whitespace-nowrap drop-shadow-md">{label}</span>
+      <span className="mt-2 text-sm leading-snug whitespace-pre-line drop-shadow-md">{label}</span>
     </div>
   );
 }
