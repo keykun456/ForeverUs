@@ -1,6 +1,8 @@
 // components/HeroNuevo.tsx
+
 import { useEffect, useState } from "react";
 import { Heart, Gift, Calendar } from "lucide-react";
+import { useRouter } from "next/router"; // 👈 Necesario para detectar hash
 
 // ✅ Componente personalizado de Botón sin dependencia externa
 const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
@@ -16,18 +18,20 @@ const Button = ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonEle
 const images = ["/img/hero1.jpg", "/img/hero2.jpg", "/img/hero3.jpg"];
 
 export default function HeroNuevo() {
-  // 🔢 Escoge una imagen aleatoria solo una vez al cargar
-  const [currentImageIndex] = useState(() => Math.floor(Math.random() * images.length));
+  const [currentImageIndex] = useState(() => Math.floor(Math.random() * images.length)); // 🎲 Imagen aleatoria
+  const router = useRouter();
 
-  // 🔄 Siempre vuelve al inicio (top de la página) al recargar
+  // 🔄 Solo hacer scroll al inicio si no hay hash en la URL
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [router.asPath]);
 
   return (
     <section
       className="relative w-full h-screen bg-cover bg-center flex flex-col justify-end items-center text-white p-4"
-      style={{ backgroundImage: `url(${images[currentImageIndex]})` }} // 🎯 Aplica la imagen actual como fondo
+      style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
     >
       {/* 🔲 Capa oscura encima de la imagen para mejorar la legibilidad del texto */}
       <div className="absolute inset-0 bg-black/40" />
@@ -58,4 +62,3 @@ function ServiceIcon({ icon, label }: { icon: React.ReactNode; label: string }) 
     </div>
   );
 }
-
