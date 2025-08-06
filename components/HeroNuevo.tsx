@@ -36,7 +36,7 @@ export default function HeroNuevo() {
 
   return (
     <section
-      className="relative w-full h-screen bg-cover bg-center flex flex-col justify-between text-white p-4"
+      className="relative w-full min-h-screen bg-cover bg-center flex flex-col justify-between text-white px-4 pt-4 pb-28"
       style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
     >
       {/* 🔲 Capa oscura encima de la imagen para mejorar la legibilidad del texto */}
@@ -44,18 +44,18 @@ export default function HeroNuevo() {
 
       {/* 🌟 Contenido centrado con título, subtítulo y botón */}
       <div className="relative z-10 text-center mt-20 px-4">
-        <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-md">ForeverUs</h1>
-        <p className="mt-4 text-lg md:text-xl drop-shadow-md">Hacemos del amor un momento sublime</p>
+        <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-md">ForeverUs</h1>
+        <p className="mt-4 text-lg md:text-2xl drop-shadow-md">Hacemos del amor un momento sublime</p>
         <div className="mt-6">
           <Button>Ver servicios</Button>
         </div>
       </div>
 
       {/* 🎯 Íconos de servicios en grid responsiva */}
-      <div className="relative z-10 grid grid-cols-3 gap-3 mb-8 w-full max-w-3xl text-center px-4">
-        <ServiceIcon icon={<Heart size={28} />} label={"Experiencias\nrománticas"} />
-        <ServiceIcon icon={<Gift size={28} />} label={"Detalles\núnicos"} />
-        <ServiceIcon icon={<Calendar size={28} />} label={"Eventos a la\nmedida"} />
+      <div className="relative z-10 grid grid-cols-3 gap-3 w-full max-w-3xl text-center mx-auto">
+        <ServiceIcon icon={<Heart size={40} />} label={"Experiencias\nrománticas"} />
+        <ServiceIcon icon={<Gift size={40} />} label={"Detalles\núnicos"} />
+        <ServiceIcon icon={<Calendar size={40} />} label={"Eventos a la\nmedida"} />
       </div>
     </section>
   );
@@ -66,7 +66,9 @@ function ServiceIcon({ icon, label }: { icon: React.ReactNode; label: string }) 
   return (
     <div className="flex flex-col items-center justify-center text-white">
       {icon}
-      <span className="mt-2 text-sm leading-snug whitespace-pre-line drop-shadow-md">{label}</span>
+      <span className="mt-2 text-sm md:text-lg leading-snug whitespace-pre-line drop-shadow-md">
+        {label}
+      </span>
     </div>
   );
 }
