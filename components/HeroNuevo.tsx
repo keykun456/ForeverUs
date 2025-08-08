@@ -56,8 +56,8 @@ export default function HeroNuevo() {
         </div>
       </div>
 
-      {/* 🎯 Botones de servicios en grid responsiva con navegación */}
-      <div className="flex flex-col sm:grid sm:grid-cols-3 gap-4 w-full max-w-3xl text-center mx-auto sm:text-left">
+      {/* 🎯 Íconos de servicios en diseño responsivo y centrado */}
+      <div className="flex flex-row flex-wrap justify-center sm:grid sm:grid-cols-3 gap-4 w-full max-w-3xl text-center mx-auto">
         <ServiceIcon icon={<Heart size={40} />} label={"Experiencias\nrománticas"} href="#services" />
         <ServiceIcon icon={<Gift size={40} />} label={"Detalles\núnicos"} href="#services" />
         <ServiceIcon icon={<Calendar size={40} />} label={"Eventos a la\nmedida"} href="#contact" />
