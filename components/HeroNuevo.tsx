@@ -58,9 +58,9 @@ export default function HeroNuevo() {
 
       {/* 🎯 Íconos de servicios en diseño responsivo y centrado (3 columnas siempre) */}
       <div className="grid grid-cols-3 gap-4 w-full max-w-xs text-center mx-auto sm:max-w-3xl">
-        <ServiceIcon icon={<Heart size={40} color="#f472b6" />} label={"Experiencias\nrománticas"} href="#services" />
-        <ServiceIcon icon={<Gift size={40} color="#f472b6" />} label={"Detalles\núnicos"} href="#services" />
-        <ServiceIcon icon={<Calendar size={40} color="#f472b6" />} label={"Eventos a la\nmedida"} href="#contact" />
+        <ServiceIcon icon={<Heart size={40} color="#f9a8d4" />} label={"Experiencias\nrománticas"} href="#services" />
+        <ServiceIcon icon={<Gift size={40} color="#f9a8d4" />} label={"Detalles\núnicos"} href="#services" />
+        <ServiceIcon icon={<Calendar size={40} color="#f9a8d4" />} label={"Eventos a la\nmedida"} href="#contact" />
       </div>
     </section>
   );
@@ -74,7 +74,7 @@ function ServiceIcon({ icon, label, href }: { icon: React.ReactNode; label: stri
       className="flex flex-col items-center justify-center text-white hover:bg-white/10 active:bg-white/20 p-4 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-pink-400"
     >
       {icon}
-      <span className="mt-2 text-base md:text-lg leading-snug whitespace-pre-line drop-shadow-md text-center font-medium">
+      <span className="mt-2 text-sm sm:text-base leading-snug whitespace-pre-line drop-shadow-md text-center font-medium">
         {label}
       </span>
     </button>
