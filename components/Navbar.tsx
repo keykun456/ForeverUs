@@ -1,7 +1,7 @@
 // components/Navbar.tsx
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion"; // ✨ Importamos AnimatePresence para animación condicional
+import { motion, AnimatePresence } from "framer-motion"; // ✨ Animaciones suaves con framer-motion
 
 /**
  * Componente Navbar:
@@ -16,7 +16,7 @@ const Navbar = () => {
   // 👉 Control del menú móvil
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // 🎯 Efecto para ocultar la navbar al hacer scroll hacia abajo, pero evita esconderla si el scroll inicial es menor a 20px
+  // 🎯 Oculta la navbar al hacer scroll hacia abajo, la muestra si se sube o si está arriba
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY - lastScrollY > 10) {
@@ -34,30 +34,32 @@ const Navbar = () => {
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
-  
-  // Solo lo ejecuta si no hay un hash en la URL
+
+  // 🔁 Scroll al top si no hay hash en la URL (evita carga en anchors)
   useEffect(() => {
-  if (!window.location.hash) {
-    window.scrollTo(0, 0);
-  }}, []);
-  
-  // 🧼 Forzar scroll al top en móviles para evitar que se posicione en el anchor tras recarga
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  }, []);
+
+  // 🧼 Corrige comportamiento en móviles con anchors activos tras reload
   useEffect(() => {
-  const isMobile = window.innerWidth < 768;
-  if (isMobile && window.location.hash) {
-    window.scrollTo(0, 0);
-    history.replaceState(null, "", window.location.pathname); // 🔁 Limpia el hash sin recargar
-  }}, []);
+    const isMobile = window.innerWidth < 768;
+    if (isMobile && window.location.hash) {
+      window.scrollTo(0, 0);
+      history.replaceState(null, "", window.location.pathname); // 🔁 Limpia el hash
+    }
+  }, []);
 
   return (
     <>
-      {/* 🚀 Barra de navegación fija con animación */}
+      {/* 🚀 Barra de navegación fija animada */}
       <nav
         className={`h-16 bg-white shadow-md fixed w-full z-50 transition-transform duration-500 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+        <div className="w-full px-6 sm:px-10 flex justify-between items-center h-16">
           {/* 🎨 Logo animado letra por letra */}
           <motion.a
             href="#home"
@@ -68,7 +70,7 @@ const Navbar = () => {
               hidden: {},
               visible: { transition: { staggerChildren: 0.05 } },
             }}
-            className="text-2xl font-bold text-pink-600 flex"
+            className="text-3xl font-bold text-pink-600 flex"
           >
             {"Forever".split("").map((char, i) => (
               <motion.span
@@ -92,8 +94,8 @@ const Navbar = () => {
             ))}
           </motion.a>
 
-          {/* 🖱️ Navegación escritorio */}
-          <div className="space-x-4 hidden md:flex">
+          {/* 🖥️ Navegación de escritorio alineada a la derecha */}
+          <div className="space-x-6 hidden md:flex text-[1.1rem] font-medium">
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
               const href = ["#aboutus", "#services", "#contact"][idx];
               return (
@@ -109,7 +111,7 @@ const Navbar = () => {
             })}
           </div>
 
-          {/* 📱 Botón hamburguesa */}
+          {/* 📱 Botón hamburguesa para menú móvil */}
           <div className="md:hidden flex items-center h-full">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
@@ -131,7 +133,7 @@ const Navbar = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            // Fondo sólido, altura completa, bloqueo scroll visual
+            // Fondo sólido y diseño flexible vertical
             className="fixed inset-0 z-[999] bg-white min-h-screen overflow-y-auto flex flex-col items-center justify-start space-y-8 px-6 pt-24 pb-12 md:hidden"
           >
             {/* ❌ Botón para cerrar menú */}
@@ -143,7 +145,7 @@ const Navbar = () => {
               &times;
             </button>
 
-            {/* 📋 Enlaces del menú */}
+            {/* 📋 Enlaces del menú móvil */}
             {["Sobre nosotros", "Servicios", "Contacto"].map((label, idx) => {
               const href = ["#aboutus", "#services", "#contact"][idx];
               return (
@@ -151,7 +153,7 @@ const Navbar = () => {
                   key={label}
                   href={href}
                   onClick={() => setMenuOpen(false)}
-                  className="text-2xl font-semibold text-gray-900 hover:text-pink-600 transition"
+                  className="text-[1.5rem] font-semibold text-gray-900 hover:text-pink-600 transition"
                 >
                   {label}
                 </a>
@@ -161,7 +163,7 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* 🧱 Espaciador para compensar navbar fija */}
+      {/* 🧱 Espaciador para compensar la altura de la navbar fija */}
       <div className="pt-16"></div>
     </>
   );
