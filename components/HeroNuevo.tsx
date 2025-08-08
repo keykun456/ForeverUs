@@ -56,31 +56,28 @@ export default function HeroNuevo() {
         </div>
       </div>
 
-      {/* 🎯 Íconos de servicios alineados horizontalmente y optimizados para mobile con scroll suave */}
+      {/* 🎯 Íconos de servicios alineados horizontalmente y optimizados para mobile */}
       <div className="grid grid-cols-3 gap-4 w-full max-w-md text-center mx-auto">
-        <ServiceIcon icon={<Heart size={40} color="#fcd6e8" />} label="Experiencias\nrománticas" href="#services" />
-        <ServiceIcon icon={<Gift size={40} color="#fcd6e8" />} label="Detalles\núnicos" href="#services" />
-        <ServiceIcon icon={<Calendar size={40} color="#fcd6e8" />} label="Eventos a la\nmedida" href="#contact" />
+        <ServiceIcon icon={<Heart size={40} color="#fcd6e8" />} label={["Experiencias", "románticas"]} href="#services" />
+        <ServiceIcon icon={<Gift size={40} color="#fcd6e8" />} label={["Detalles", "únicos"]} href="#services" />
+        <ServiceIcon icon={<Calendar size={40} color="#fcd6e8" />} label={["Eventos a la", "medida"]} href="#contact" />
       </div>
     </section>
   );
 }
 
 // 🔧 Componente reutilizable como botón animado para íconos con etiquetas y navegación
-function ServiceIcon({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) {
+function ServiceIcon({ icon, label, href }: { icon: React.ReactNode; label: string[]; href: string }) {
   return (
     <button
-      onClick={() => {
-        const section = document.querySelector(href);
-        if (section) {
-          section.scrollIntoView({ behavior: "smooth" });
-        }
-      }}
+      onClick={() => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })} // 🧭 Scroll suave a la sección correspondiente
       className="flex flex-col items-center justify-center text-white hover:bg-white/10 active:bg-white/20 p-4 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-pink-400 min-w-0"
     >
       {icon}
-      <span className="mt-2 text-[13px] sm:text-base leading-tight whitespace-pre-line text-center font-medium">
-        {label}
+      <span className="mt-2 text-[13px] sm:text-base leading-tight text-center font-medium">
+        {label.map((line, index) => (
+          <div key={index}>{line}</div>
+        ))}
       </span>
     </button>
   );
