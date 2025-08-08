@@ -36,7 +36,7 @@ export default function HeroNuevo() {
 
   return (
     <section
-      className="relative w-full min-h-screen bg-cover bg-center flex flex-col justify-between text-white px-4 pt-4 pb-28"
+      className="relative w-full min-h-[calc(100vh-4rem)] bg-cover bg-center flex flex-col justify-between text-white px-4 pt-4 pb-28"
       style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
     >
       {/* 🔲 Capa oscura encima de la imagen para mejorar la legibilidad del texto */}
