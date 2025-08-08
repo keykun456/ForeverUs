@@ -36,6 +36,7 @@ export default function HeroNuevo() {
 
   return (
     <section
+      // 📏 Ajuste de altura para evitar solapamiento con la navbar fija
       className="relative w-full min-h-[calc(100vh-4rem)] bg-cover bg-center flex flex-col justify-between text-white px-4 pt-4 pb-28"
       style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
     >
@@ -51,24 +52,27 @@ export default function HeroNuevo() {
         </div>
       </div>
 
-      {/* 🎯 Íconos de servicios en grid responsiva */}
+      {/* 🎯 Botones de servicios en grid responsiva con navegación */}
       <div className="relative z-10 grid grid-cols-3 gap-3 w-full max-w-3xl text-center mx-auto">
-        <ServiceIcon icon={<Heart size={40} />} label={"Experiencias\nrománticas"} />
-        <ServiceIcon icon={<Gift size={40} />} label={"Detalles\núnicos"} />
-        <ServiceIcon icon={<Calendar size={40} />} label={"Eventos a la\nmedida"} />
+        <ServiceIcon icon={<Heart size={40} />} label={"Experiencias\nrománticas"} href="#services" />
+        <ServiceIcon icon={<Gift size={40} />} label={"Detalles\núnicos"} href="#services" />
+        <ServiceIcon icon={<Calendar size={40} />} label={"Eventos a la\nmedida"} href="#contact" />
       </div>
     </section>
   );
 }
 
-// 🔧 Componente reutilizable para mostrar íconos con etiquetas
-function ServiceIcon({ icon, label }: { icon: React.ReactNode; label: string }) {
+// 🔧 Componente reutilizable como botón animado para íconos con etiquetas y navegación
+function ServiceIcon({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) {
   return (
-    <div className="flex flex-col items-center justify-center text-white">
+    <button
+      onClick={() => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })} // 🧭 Scroll suave a la sección correspondiente
+      className="flex flex-col items-center justify-center text-white hover:bg-white/10 active:bg-white/20 p-4 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-pink-400"
+    >
       {icon}
-      <span className="mt-2 text-sm md:text-lg leading-snug whitespace-pre-line drop-shadow-md">
+      <span className="mt-2 text-sm md:text-lg leading-snug whitespace-pre-line drop-shadow-md text-center">
         {label}
       </span>
-    </div>
+    </button>
   );
 }
