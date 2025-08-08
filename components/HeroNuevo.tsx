@@ -56,11 +56,11 @@ export default function HeroNuevo() {
         </div>
       </div>
 
-      {/* 🎯 Íconos de servicios en diseño responsivo y centrado */}
-      <div className="flex flex-row flex-wrap justify-center sm:grid sm:grid-cols-3 gap-4 w-full max-w-3xl text-center mx-auto">
-        <ServiceIcon icon={<Heart size={40} />} label={"Experiencias\nrománticas"} href="#services" />
-        <ServiceIcon icon={<Gift size={40} />} label={"Detalles\núnicos"} href="#services" />
-        <ServiceIcon icon={<Calendar size={40} />} label={"Eventos a la\nmedida"} href="#contact" />
+      {/* 🎯 Íconos de servicios en diseño responsivo y centrado (3 columnas siempre) */}
+      <div className="grid grid-cols-3 gap-4 w-full max-w-xs text-center mx-auto sm:max-w-3xl">
+        <ServiceIcon icon={<Heart size={40} color="#f472b6" />} label={"Experiencias\nrománticas"} href="#services" />
+        <ServiceIcon icon={<Gift size={40} color="#f472b6" />} label={"Detalles\núnicos"} href="#services" />
+        <ServiceIcon icon={<Calendar size={40} color="#f472b6" />} label={"Eventos a la\nmedida"} href="#contact" />
       </div>
     </section>
   );
