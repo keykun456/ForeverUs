@@ -45,39 +45,33 @@ export default function HeroNuevo() {
 
       {/* 🌟 Contenido centrado con título, subtítulo y botón */}
       <div className="relative z-10 text-center mt-20 px-4">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white drop-shadow-xl tracking-wide">
-          ForeverUs
-        </h1>
-        <p className="mt-4 text-lg md:text-xl lg:text-2xl font-medium text-white drop-shadow-lg tracking-wide">
-          Hacemos del amor un momento sublime
-        </p>
+        <h1 className="text-5xl md:text-7xl font-bold text-white drop-shadow-md">ForeverUs</h1>
+        <p className="mt-4 text-lg md:text-2xl drop-shadow-md">Hacemos del amor un momento sublime</p>
         <div className="mt-6">
           <Button>Ver servicios</Button>
         </div>
       </div>
 
-      {/* 🎯 Íconos de servicios alineados horizontalmente y optimizados para mobile */}
-      <div className="grid grid-cols-3 gap-4 w-full max-w-md text-center mx-auto">
-        <ServiceIcon icon={<Heart size={40} color="#fcd6e8" />} label={["Experiencias", "románticas"]} href="#services" />
-        <ServiceIcon icon={<Gift size={40} color="#fcd6e8" />} label={["Detalles", "únicos"]} href="#services" />
-        <ServiceIcon icon={<Calendar size={40} color="#fcd6e8" />} label={["Eventos a la", "medida"]} href="#contact" />
+      {/* 🎯 Botones de servicios en grid responsiva con navegación */}
+      <div className="relative z-10 grid grid-cols-3 gap-3 w-full max-w-3xl text-center mx-auto">
+        <ServiceIcon icon={<Heart size={40} />} label={"Experiencias\nrománticas"} href="#services" />
+        <ServiceIcon icon={<Gift size={40} />} label={"Detalles\núnicos"} href="#services" />
+        <ServiceIcon icon={<Calendar size={40} />} label={"Eventos a la\nmedida"} href="#contact" />
       </div>
     </section>
   );
 }
 
 // 🔧 Componente reutilizable como botón animado para íconos con etiquetas y navegación
-function ServiceIcon({ icon, label, href }: { icon: React.ReactNode; label: string[]; href: string }) {
+function ServiceIcon({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) {
   return (
     <button
       onClick={() => document.querySelector(href)?.scrollIntoView({ behavior: "smooth" })} // 🧭 Scroll suave a la sección correspondiente
-      className="flex flex-col items-center justify-center text-white hover:bg-white/10 active:bg-white/20 p-4 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-pink-400 min-w-0"
+      className="flex flex-col items-center justify-center text-white hover:bg-white/10 active:bg-white/20 p-4 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-pink-400"
     >
       {icon}
-      <span className="mt-2 text-[13px] sm:text-base leading-tight text-center font-medium">
-        {label.map((line, index) => (
-          <div key={index}>{line}</div>
-        ))}
+      <span className="mt-2 text-sm md:text-lg leading-snug whitespace-pre-line drop-shadow-md text-center">
+        {label}
       </span>
     </button>
   );
